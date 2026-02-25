@@ -59,7 +59,7 @@ if st.button("🔥 TẠO PROMPT"):
     if hook.strip() == "":
         st.warning("Bạn chưa nhập hook")
     else:
-        result = generate_prompt(hook, topicktopic, style, platform, mode)
+        result = generate_prompt(hook, topic, style, platform, mode)
         st.subheader("PROMPT TỐI ƯU")
         st.code(result, language="markdown")
         st.download_button(
@@ -67,3 +67,4 @@ if st.button("🔥 TẠO PROMPT"):
             result,
             file_name=f"prompt_{datetime.now().strftime('%H%M%S')}.txt"
         )
+
