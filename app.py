@@ -4,7 +4,8 @@ import google.generativeai as genai
 # ====== API KEY ======
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-model = genai.GenerativeModel("gemini-1.5-flash")
+# ✅ model ổn định nhất
+model = genai.GenerativeModel("gemini-pro")
 
 # ====== FUNCTION ======
 def generate_prompt(hook, topic, style, platform, mode):
@@ -39,10 +40,7 @@ OUTPUT:
 - 5 Keywords
 """
 
-    # ✅ GỌI AI (đây là phần quan trọng bạn đang thiếu)
     response = model.generate_content(prompt)
-
-    # ✅ TRẢ OUTPUT THAY VÌ PROMPT
     return response.text
 
 
@@ -56,7 +54,6 @@ platform = st.selectbox("Platform", ["TikTok", "YouTube", "Facebook"])
 mode = st.selectbox("Mode", ["Normal", "Viral"])
 
 if st.button("🔥 TẠO PROMPT"):
-
     if hook.strip() == "":
         st.warning("Nhập hook trước đã")
     else:
