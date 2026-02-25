@@ -1,13 +1,3 @@
-import streamlit as st
-import google.generativeai as genai
-
-# ====== API KEY ======
-genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-
-# ✅ model mới ổn định
-model = genai.GenerativeModel("gemini-1.5-pro")
-
-# ====== FUNCTION ======
 def generate_prompt(hook, topic, style, platform, mode):
 
     prompt = f"""
@@ -60,22 +50,9 @@ OUTPUT FORMAT (MANDATORY):
 5 short keywords separated by commas
 """
 
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(
+        model="gemini-1.5-flash",
+        contents=prompt
+    )
+
     return response.text
-
-
-# ====== UI ======
-st.title("🔥 Prompt Generator")
-
-hook = st.text_area("Hook")
-topic = st.selectbox("Topic", ["social analysis", "business", "mindset"])
-style = st.selectbox("Style", ["deep", "viral", "storytelling"])
-platform = st.selectbox("Platform", ["TikTok", "YouTube", "Facebook"])
-mode = st.selectbox("Mode", ["Normal", "Viral"])
-
-if st.button("🔥 TẠO PROMPT"):
-    if hook.strip() == "":
-        st.warning("Nhập hook trước đã")
-    else:
-        result = generate_prompt(hook, topic, style, platform, mode)
-        st.markdown(result)
