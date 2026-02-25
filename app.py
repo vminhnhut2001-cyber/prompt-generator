@@ -4,14 +4,20 @@ import google.generativeai as genai
 # ====== API KEY ======
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# ✅ model ổn định nhất
-model = genai.GenerativeModel("gemini-pro")
+# ✅ model mới ổn định
+model = genai.GenerativeModel("gemini-1.5-pro")
 
 # ====== FUNCTION ======
 def generate_prompt(hook, topic, style, platform, mode):
 
     prompt = f"""
 You are a top content strategist.
+
+Your task is to generate a HIGH-QUALITY social media script.
+
+You MUST follow the exact output format below.
+DO NOT explain anything.
+DO NOT add extra text outside the format.
 
 HOOK:
 "{hook}"
@@ -22,8 +28,10 @@ Style: {style}
 Platform: {platform}
 
 REQUIREMENTS:
-- Focus on clarity
-- Make it educational
+- Clear and educational
+- Spoken natural style
+- Emotionally engaging
+- Suitable for short-form video
 
 STRUCTURE:
 1. Reinforce the hook emotionally
@@ -32,12 +40,24 @@ STRUCTURE:
 4. Add psychological trigger
 5. Strong memorable closing line
 
-OUTPUT:
-- Title
-- Full Script (spoken style)
-- Visual Suggestions
-- Caption
-- 5 Keywords
+OUTPUT FORMAT (MANDATORY):
+
+## TITLE
+(write one strong title)
+
+## FULL SCRIPT
+(spoken style, natural, no bullet points)
+
+## VISUAL SUGGESTIONS
+- Scene ideas
+- Camera angle ideas
+- Visual metaphors if possible
+
+## CAPTION
+(short, viral, educational)
+
+## KEYWORDS
+5 short keywords separated by commas
 """
 
     response = model.generate_content(prompt)
@@ -58,4 +78,4 @@ if st.button("🔥 TẠO PROMPT"):
         st.warning("Nhập hook trước đã")
     else:
         result = generate_prompt(hook, topic, style, platform, mode)
-        st.write(result)
+        st.markdown(result)
